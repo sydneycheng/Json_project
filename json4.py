@@ -1,13 +1,11 @@
-from plotly import offline
-from plotly.graph_objs import Scattergeo, Layout
 import json
 
 
-infile = open("US_fires_9_1.json", "r")
+infile = open("US_fires_9_14.json", "r")
 
 fire_data = json.load(infile)
 
-
+#create empty lists
 lats,lons,bright = [],[],[]
  
 for f in fire_data:
@@ -20,9 +18,13 @@ for f in fire_data:
         bright.append(brightness)
 
 
-print(bright[:5])
+
 print(lats[:5])
 print(lons[:5])
+print(bright[:5])
+
+from plotly import offline
+from plotly.graph_objs import Scattergeo, Layout
 
 data = [{
     "type":"Scattergeo",
@@ -30,17 +32,17 @@ data = [{
     "lat":lats,
     "text":bright,
     "marker":{
-        "size":[.05 * br for br in bright],
+        "size":[.05*br for br in bright],
         "color":bright,
         "colorscale":"Viridis",
         "reversescale":True,
-        "colorbar":{"title": "brightness"},
+        "colorbar":{"title":"brightness"}
     }
 }]
 
 
-my_layout = Layout(title = "US Fires - 9/1/2020 thorugh 9/13/2020")
+my_layout = Layout(title = "US Fires - 9/14/2020 thorugh 9/20/2020")
 
 fig = {"data": data, "layout": my_layout}
 
-offline.plot(fig, filename="globalfiresgreaterthan450.html")
+offline.plot(fig, filename="globalfiresgreaterthan450_9_14.html")
